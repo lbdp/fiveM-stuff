@@ -15,11 +15,11 @@ local MovieState = false
 function LoadBlips()
   for k,v in ipairs(cinemaLocations) do
     local blip = AddBlipForCoord(v.x, v.y, v.z)
-    Citizen.InvokeNative(0xDF735600A4696DAF, blip, 135)
-    Citizen.InvokeNative(0xD38744167B2FA257, blip, 1.2)
-    Citizen.InvokeNative(0x03D7FB09E75D6B7E, blip, 25)
-    Citizen.InvokeNative(0xBE8BE4FE60E27B72, blip, false)
-    Citizen.InvokeNative(0xF9113A30DE5C6670, "STRING")
+    SetBlipSprite(blip, 135)
+    SetBlipScale(blip, 1.2)
+    SetBlipColour(blip, 25)
+    SetBlipAsShortRange(blip, false)
+    BeginTextCommandSetBlipName("STRING")
     AddTextComponentSubstringPlayerName("Movie Theater")
     EndTextCommandSetBlipName(blip)
 
@@ -51,34 +51,34 @@ function SetupMovie()
   cinema = GetInteriorAtCoords(320.217, 263.81, 82.974)
   LoadInterior(cinema)
 --this gets the hash key of the cinema screen
-  cin_screen = 1358323305
+  cin_screen = GetHashKey("v_ilev_cin_screen")
 --this gets the entity ID of screen
   
    if not DoesEntityExist(tv1) then
-     tv = Citizen.InvokeNative(0x9A294B2138ABB884, cin_screen, 320.1257, 248.6608, 86.56934, 1, true, false)
+     tv = CreateObjectNoOffset(cin_screen, 320.1257, 248.6608, 86.56934, 1, true, false)
 	 SetEntityHeading(tv, 179.99998474121)
     else 
 	 tv = GetClosestObjectOfType(319.884, 262.103, 82.917, 20.475, cin_screen, 0, 0, 0)
    end
   --AttachTvAudioToEntity(tv)
-  if not Citizen.InvokeNative(0x78DCDC15C9F116B4, "cinscreen") then
-    Citizen.InvokeNative(0x57D9C12635E25CE3, "cinscreen", 0)
+  if not IsNamedRendertargetRegistered("cinscreen") then
+    RegisterNamedRendertarget("cinscreen", 0)
   end
-    if not Citizen.InvokeNative(0x113750538FA31298, cin_screen) then
-        Citizen.InvokeNative(0xF6C09E276AEB3F2D, cin_screen)
+    if not IsNamedRendertargetLinked(cin_screen) then
+        LinkNamedRendertarget(cin_screen)
     end
-  rendertargetid = Citizen.InvokeNative(0x1A6478B61C6BDC3B, "cinscreen")
-  if Citizen.InvokeNative(0x113750538FA31298, cin_screen) and Citizen.InvokeNative(0x78DCDC15C9F116B4, "cinscreen") then
+  rendertargetid = GetNamedRendertargetRenderId("cinscreen")
+  if IsNamedRendertargetLinked(cin_screen) and IsNamedRendertargetRegistered("cinscreen") then
     Citizen.InvokeNative(0x9DD5A62390C3B735, 2, randomVideo(), 0)								
-	Citizen.InvokeNative(0x5F15302936E07111, rendertargetid)
-	Citizen.InvokeNative(0x2982BF73F66E9DDC, 100)	
-    Citizen.InvokeNative(0xBAABBB23EB6E484E, 2)
-    Citizen.InvokeNative(0x873FA65C778AD970, 1)      
+	SetTextRenderId(rendertargetid)
+	SetTvVolume(100)	
+    SetTvChannel(2)
+    EnableMovieSubtitles(1)      
     Citizen.InvokeNative(0x67A346B3CDB15CA5, 100.0)
     Citizen.InvokeNative(0x61BB1D9B3A95D802, 4)
     Citizen.InvokeNative(0xC6372ECD45D73BCD, 1)
   else 
-   Citizen.InvokeNative(0x5F15302936E07111, GetDefaultScriptRendertargetRenderId())
+   SetTextRenderId(GetDefaultScriptRendertargetRenderId())
   end
   if MovieState == false then
     MovieState = true
@@ -94,10 +94,10 @@ end
 
 function DeconstructMovie()
  local obj = GetClosestObjectOfType(319.884, 262.103, 82.917, 20.475, cin_screen, 0, 0, 0)
-  cin_screen = 1358323305
-  Citizen.InvokeNative(0xBAABBB23EB6E484E, -1)
-  Citizen.InvokeNative(0xE9F6FFE837354DD4, -895532187)
-  Citizen.InvokeNative(0x5F15302936E07111, Citizen.InvokeNative(0x52F0982D7FD156B6))
+  cin_screen = GetHashKey("v_ilev_cin_screen")
+  SetTvChannel(-1)  
+  ReleaseNamedRendertarget(GetHashKey("cinscreen"))
+  SetTextRenderId(GetDefaultScriptRendertargetRenderId())
   SetEntityAsMissionEntity(obj,true,false)
   DeleteObject(obj)
 end
@@ -107,9 +107,9 @@ function StartMovie()
 end
 function CreateMovieThread()
   Citizen.CreateThread(function()
-    Citizen.InvokeNative(0x5F15302936E07111, Citizen.InvokeNative(0x1A6478B61C6BDC3B, "cinscreen"))
+    SetTextRenderId(GetNamedRendertargetRenderId("cinscreen"))
 	Citizen.InvokeNative(0x9DD5A62390C3B735, 2, randomVideo(), 0)		
-	Citizen.InvokeNative(0xBAABBB23EB6E484E, 2)
+	SetTvChannel(2)
 	Citizen.InvokeNative(0x67A346B3CDB15CA5, 100.0)
     Citizen.InvokeNative(0x61BB1D9B3A95D802, 4)
     Citizen.InvokeNative(0xC6372ECD45D73BCD, 1)		
@@ -119,8 +119,6 @@ function CreateMovieThread()
     end
   end)
 end
-
-
 -- GetEntityCoords(GetPlayerPed(-1), true)
 function IsPlayerInArea()
   playerPed = GetPlayerPed(-1)
@@ -151,8 +149,6 @@ function IsPlayerInArea()
         end
       end
 end
-			
-			
 
 Citizen.CreateThread(function()
   while true do
@@ -160,7 +156,6 @@ Citizen.CreateThread(function()
     IsPlayerInArea()
   end
 end)
-
 Citizen.CreateThread(function()
  if GetRoomKeyFromEntity(PlayerPedId()) ~= -1337806789 and DoesEntityExist(GetClosestObjectOfType(319.884, 262.103, 82.917, 20.475, cin_screen, 0, 0, 0)) then
     DeconstructMovie() 
@@ -168,21 +163,16 @@ Citizen.CreateThread(function()
   -- Create the blips for the cinema's
   LoadBlips()      
 end)
-
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
-    playerPed = GetPlayerPed(-1)
-    --RenderFirstPersonCam(1, 0, 3, 0)
-   -- IsPlayerInArea()
-    
+    playerPed = GetPlayerPed(-1)    
       -- Check if the player is at the exit door
       if IsControlPressed(0, 322) and GetRoomKeyFromEntity(PlayerPedId()) == -1337806789 then   
         SetEntityCoords(playerPed, 297.891, 193.296, 104.344, 161.925)
 		FreezeEntityPosition(GetPlayerPed(-1), 0)
 		SetFollowPedCamViewMode(fistPerson)
 		DeconstructMovie()
-        --ClearRoomForEntity(playerPed)
         MovieState = false
       end
     if GetRoomKeyFromEntity(PlayerPedId()) == -1337806789 then
