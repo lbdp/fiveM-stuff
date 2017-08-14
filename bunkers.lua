@@ -245,7 +245,7 @@ createMarker()
 	EnableInteriorProp(258561,"gun_locker_upgrade")
 
     RefreshInterior(258561)
-    NetworkSetThisScriptIsNetworkScript(1, 0, PlayerId())  
+  
 
 Citizen.CreateThread(function()
 ----------------------------------------------------------------------------
