@@ -1,7 +1,11 @@
+
+
 ---------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------put entity name or hash here---------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------
-  stuff = -739654066
+function things(modelHash)
+   stuff = modelHash
+end
 ----------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------this sets delete gun toggle to off --------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------
@@ -61,10 +65,10 @@ Citizen.CreateThread(function()
 --if left shift is pressed then movement speed is slower
 	if IsControlPressed(0, 21) then
       	moveSpeed = 0.01
-		moveSpeed1 = 1.0
+		moveSpeed1 = 0.2
     else 
         moveSpeed = 0.1
-		moveSpeed1 = 0.3
+		moveSpeed1 = 1.3
 	 end
 
 --this sets "a" to nil if no entity was spawned and no entity of type found near player
@@ -75,7 +79,7 @@ Citizen.CreateThread(function()
 -- if control "left" key is pressed then it spawns the entity of your choosing	 
 	 if IsControlPressed(0, 213) then
 	    Citizen.Wait(500)
-		 spawnStuff()
+		 spawnStuff(stuff)
 	 end
 --left key
 -- if control "left" key is pressed then it adds 0.01 to the x coord
@@ -139,7 +143,8 @@ Citizen.CreateThread(function()
 		entityY1 = entityCoords1.y + moveSpeed
         SetEntityCoords(b, entityX1, entityY1, entityZ1)			
 	 end
---leftshift AND "E"
+
+	 --leftshift AND "E"
 -- if left shift AND "E" key are pressed then it deletes the entity
 --and any other entity close to the player with the same hashkey
 	 if IsControlPressed(0, 21) and IsControlPressed(0, 38) then
@@ -150,42 +155,42 @@ Citizen.CreateThread(function()
 --numberpad "+" key
 -- if numberpad "+" key is pressed then it adds 0.1 to the entity's heading(spins the thing)
 	 if DoesEntityExist(a) and IsControlPressed(0, 96) then
-	    entityRotZ = entityRotZ + moveSpeed	  
+	    entityRotZ = entityRotZ + moveSpeed1	  
 --sets the entity's heading with result
 		SetEntityRotation(a, entityRotX, entityRotY, entityRotZ)
-	    entityRotZ1 = entityRotZ1 + moveSpeed	  
+	    entityRotZ1 = entityRotZ1 + moveSpeed1	  
 --sets the entity's heading with result
 		SetEntityRotation(b, entityRotX1, entityRotY1, entityRotZ1)		
 	 end
 --numberpad "-" key
 -- if numberpad "-" key is pressed then it subtract's 0.1 from the entity's heading(spins the thing)
 	 if DoesEntityExist(a) and IsControlPressed(0, 97) then
-        entityRotZ = entityRotZ - moveSpeed			
+        entityRotZ = entityRotZ - moveSpeed1			
 		--sets the entity's heading with result
 		SetEntityRotation(a, entityRotX, entityRotY, entityRotZ)
-        entityRotZ1 = entityRotZ1 - moveSpeed			
+        entityRotZ1 = entityRotZ1 - moveSpeed1			
 		--sets the entity's heading with result
 		SetEntityRotation(b, entityRotX1, entityRotY1, entityRotZ1)		
 	 end
 	 --the "[" key
      	if DoesEntityExist(a) and IsControlPressed(0, 39) then
         --entityRot = GetEntityRotation(a)
-	    entityRotY = entityRotY + moveSpeed
+	    entityRotY = entityRotY + moveSpeed1
 		--sets the entity's rotation with result
 		SetEntityRotation(a, entityRotX, entityRotY, entityRotZ)
         --entityRot = GetEntityRotation(a)
-	    entityRotY1 = entityRotY1 + moveSpeed
+	    entityRotY1 = entityRotY1 + moveSpeed1
 		--sets the entity's rotation with result
 		SetEntityRotation(b, entityRotX1, entityRotY1, entityRotZ1)		
 	 end
 	 -- the "]" key
      	if (DoesEntityExist(a) and IsControlPressed(0, 40)) then
         --entityRot = GetEntityRotation(a)		
-	    entityRotY = entityRotY - moveSpeed 		
+	    entityRotY = entityRotY - moveSpeed1 		
 		--sets the entity's rotation with result
 		SetEntityRotation(a, entityRotX, entityRotY, entityRotZ)
 	        --entityRot = GetEntityRotation(a)		
-	    entityRotY1 = entityRotY1 - moveSpeed 		
+	    entityRotY1 = entityRotY1 - moveSpeed1 		
 		--sets the entity's rotation with result
 		SetEntityRotation(b, entityRotX1, entityRotY1, entityRotZ1)	
 	 end
@@ -225,7 +230,7 @@ function invisibleStuff()
 end
 ----------------------------
 --this is the ACTUAL spawner
-function spawnStuff()
+function spawnStuff(stuff)
 Citizen.CreateThread(function() 
 --this requests the model of what is to be spawned
 	if not HasModelLoaded(stuff) then
@@ -358,6 +363,7 @@ end)
 
     SetSwimMultiplierForPlayer(dude5, 1.49)
 	SetRunSprintMultiplierForPlayer(dude5, 1.49) 
+RequestScaleformMovie("instructional_buttons")
 
 --------------------------------------------------------------------------------------------------
 ----------------------this gets a player if they are not the current player-----------------------
@@ -367,6 +373,7 @@ Citizen.CreateThread(function()
      temp1 = 0
 	 while temp1 <=5 do
 	  Wait(1000)
+	 
       temp2 = IntToPlayerindex(temp1)
 	   if GetPlayerPed(temp2) ~= temp0 then 
 	        
@@ -390,7 +397,7 @@ end)
 
 Citizen.CreateThread(function()
     while true do	
-     Citizen.Wait(1000)
+     Citizen.Wait(1000000)
 	 Citizen.Trace("get hash key of cinscreen: "..tostring(GetHashKey("cinscreen")))
 	 --Citizen.Trace("is interior ready: "..tostring(IsInteriorReady(258561)))
 	 --Citizen.Trace("playerId: "..tostring(PlayerId()))
