@@ -3,4 +3,6 @@ client_scripts {
 'bunkers.lua'
 'debugtools.lua'
 'tv_stuff.lua'
+'gui.lua'
+
 }
