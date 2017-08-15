@@ -4,5 +4,5 @@ client_scripts {
 'debugtools.lua'
 'tv_stuff.lua'
 'gui.lua'
-
+'menu.lua'
 }
