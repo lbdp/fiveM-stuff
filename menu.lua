@@ -54,6 +54,15 @@ function Main()
 	Menu.addButton("~y~animations menu", "animationMenu", nil)
 end
 
+function Main2()
+    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
+	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+    options.menu_title = "my menyoo"
+    options.menu_subtitle = "~o~main menu"
+    ClearMenu()
+	Menu.addButton("~y~animations menu", "animationMenu", nil)
+end
+
 function animationMenu()
     DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
 	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
@@ -75,7 +84,7 @@ function objMenu()
     options.menu_title = "~y~obj spawner menu"
     options.menu_subtitle = "obj list"
     ClearMenu()
-	Menu.addButton("gr_adv_case", "things1", "gr_prop_gr_adv_case")
+	Menu.addButton("637672069", "things1", 637672069)
     Menu.addButton("gr_crate_gun_01a", "things1", "gr_prop_gr_crate_gun_01a")
     Menu.addButton("~r~delete stuff", "deleteStuff", nil)
 	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
@@ -164,12 +173,14 @@ end
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(0)                  
+        Citizen.Wait(0)
                     if IsControlJustReleased(1, 166) then -- INPUT_CELLPHONE_DOWN
                         Main() -- Menu to draw
                         Menu.hidden = not Menu.hidden -- Hide/Show the menu
                     end
-
                     Menu.renderGUI(options) -- Draw menu on each tick if Menu.hidden = false
                 end       
 end)
+
+
+
