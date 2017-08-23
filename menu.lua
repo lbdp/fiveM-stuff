@@ -166,8 +166,9 @@ end
 function DisplayHelpText(str)
 	SetTextComponentFormat("STRING")
 	AddTextComponentString(str)
-	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+	DisplayHelpTextFromStringLabel(0, 1, 1, -1)
 end
+
 --[[*************************************************************]]
 ------------------------------------------------------------------
 --------------------------main menu-------------------------------
@@ -230,7 +231,20 @@ function mpRacetrack()
 	Menu.addButton("track bend 2 bar left", "trackBend2BarL", nil)
 	Menu.addButton("track bend 2 left", "trackBend2L", nil)
 	Menu.addButton("track bend 2 left", "trackBend2LB", nil)
-	Menu.addButton("track bend 5d", "trackBend5d", nil)	
+	Menu.addButton("track bend 5d", "trackBend5d", nil)
+	Menu.addButton("track bend 5d bar", "trackBend5dBar", nil)
+	Menu.addButton("track bend 15d", "trackBend15d", nil)
+	Menu.addButton("~y~NEXT PAGE", "mpRacetrackPg2", nil)
+	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
+end
+function mpRacetrackPg2()
+    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
+	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+    options.menu_title = "~y~MP race track"
+    options.menu_subtitle = "select object to spawn"
+    ClearMenu()
+	Menu.addButton("track bend 15d bar", "trackBend15dBar", nil)
+	Menu.addButton("~g~BACK", "mpRacetrack", nil)
 	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
 end
 
@@ -391,7 +405,7 @@ function trackBend2LB()
 	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
 end
 ------------------------------------------------------------------
------------------------track bend 5 d spawn menu-------------
+-----------------------track bend 5 d spawn menu------------------
 ------------------------------------------------------------------
 function trackBend5d()
     DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
@@ -407,6 +421,52 @@ function trackBend5d()
 	Menu.addButton("~g~BACK", "mpRacetrack", nil)   	
 	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
 end
+------------------------------------------------------------------
+-----------------------track bend 5 d bar spawn menu------------------
+------------------------------------------------------------------
+function trackBend5dBar()
+    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
+	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+    options.menu_title = "~y~MP race track"
+    options.menu_subtitle = "track bend 5 d bar"
+    ClearMenu()
+	Menu.addButton("~b~spawn ~y~track bend 5 d bar", "things1", "stt_prop_track_bend_5d_bar")
+	Menu.addButton("~b~move ~y~track bend 5 d bar", "moveTrackBend5dBar", nil)
+	Menu.addButton("~b~disable collision ~y~track bend 5 d bar", "setCollisionStuff", true)
+	Menu.addButton("~b~enable collision ~y~track bend 5 d bar", "setCollisionStuff", false)	
+	Menu.addButton("~r~delete object", "deleteStuff", nil) 
+	Menu.addButton("~g~BACK", "mpRacetrack", nil)   	
+	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
+end
+function trackBend15d()
+    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
+	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+    options.menu_title = "~y~MP race track"
+    options.menu_subtitle = "track bend 15 d"
+    ClearMenu()
+	Menu.addButton("~b~spawn ~y~track bend 15 d bar", "things1", "stt_prop_track_bend_15d")
+	Menu.addButton("~b~move ~y~track bend 15 d bar", "moveTrackBend15d", nil)
+	Menu.addButton("~b~disable collision ~y~track bend 15 d", "setCollisionStuff", true)
+	Menu.addButton("~b~enable collision ~y~track bend 15 d", "setCollisionStuff", false)	
+	Menu.addButton("~r~delete object", "deleteStuff", nil) 
+	Menu.addButton("~g~BACK", "mpRacetrackPg2", nil)   	
+	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
+end
+function trackBend15dBar()
+    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
+	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+    options.menu_title = "~y~MP race track"
+    options.menu_subtitle = "track bend 15 d bar"
+    ClearMenu()
+	Menu.addButton("~b~spawn ~y~track bend 15 d bar", "things1", "stt_prop_track_bend_15d_bar")
+	Menu.addButton("~b~move ~y~track bend 15 d bar", "moveTrackBend15dBar", nil)
+	Menu.addButton("~b~disable collision ~y~track bend 15 d", "setCollisionStuff", true)
+	Menu.addButton("~b~enable collision ~y~track bend 15 d", "setCollisionStuff", false)	
+	Menu.addButton("~r~delete object", "deleteStuff", nil) 
+	Menu.addButton("~g~BACK", "mpRacetrackPg2", nil)   	
+	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
+end
+
 --[[*************************************************************]]
 ------------------------------------------------------------------
 -----------------------move menu's--------------------------------
@@ -417,8 +477,9 @@ end
 -----------------------move advanced case menu--------------------
 ------------------------------------------------------------------
 function moveAdvCase()
-    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
-	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to change hight")
+	Notify("~r~enter ~w~to freeze ")
     options.menu_title = "~y~move menu"
     options.menu_subtitle = "move object"
     ClearMenu()
@@ -428,8 +489,9 @@ function moveAdvCase()
 	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
 end
 function moveAdvCase0()
-    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
-	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to change hight")
+	Notify("~r~enter ~w~to freeze ")
     options.menu_title = "~y~move menu"
     options.menu_subtitle = "move object"
     ClearMenu()
@@ -441,8 +503,9 @@ end
 -----------------------move car creeper menu----------------------
 ------------------------------------------------------------------
 function moveCarCreeper()
-    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
-	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to change hight")
+	Notify("~r~enter ~w~to freeze ")
     options.menu_title = "~y~move menu"
     options.menu_subtitle = "move object"
     ClearMenu()
@@ -452,8 +515,9 @@ function moveCarCreeper()
 	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
 end
 function moveCarCreeper0()
-    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
-	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to change hight")
+	Notify("~r~enter ~w~to freeze ")
     options.menu_title = "~y~move menu"
     options.menu_subtitle = "move object"
     ClearMenu()
@@ -465,8 +529,9 @@ end
 -----------------------move gun crate menu----------------------
 ------------------------------------------------------------------
 function moveGunCrate01a()
-    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
-	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to change hight")
+	Notify("~r~enter ~w~to freeze ")
     options.menu_title = "~y~move menu"
     options.menu_subtitle = "move object"
     ClearMenu()
@@ -476,8 +541,9 @@ function moveGunCrate01a()
 	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
 end
 function moveGunCrate01a0()
-    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
-	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to change hight")
+	Notify("~r~enter ~w~to freeze ")
     options.menu_title = "~y~move menu"
     options.menu_subtitle = "move object"
     ClearMenu()
@@ -489,8 +555,9 @@ end
 -----------------------move mag crate menu----------------------
 ------------------------------------------------------------------
 function moveMagCrate01a()
-    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
-	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to change hight")
+	Notify("~r~enter ~w~to freeze ")
     options.menu_title = "~y~move menu"
     options.menu_subtitle = "move object"
     ClearMenu()
@@ -500,8 +567,9 @@ function moveMagCrate01a()
 	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
 end
 function moveMagCrate01a0()
-    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
-	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to change hight")
+	Notify("~r~enter ~w~to freeze ")
     options.menu_title = "~y~move menu"
     options.menu_subtitle = "move object"
     ClearMenu()
@@ -513,8 +581,9 @@ end
 -----------------------move MOC carmod menu----------------------
 ------------------------------------------------------------------
 function moveMOCCarmod()
-    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
-	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to change hight")
+	Notify("~r~enter ~w~to freeze ")
     options.menu_title = "~y~move menu"
     options.menu_subtitle = "move object"
     ClearMenu()
@@ -524,8 +593,9 @@ function moveMOCCarmod()
 	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
 end
 function moveMOCCarmod0()
-    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
-	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to change hight")
+	Notify("~r~enter ~w~to freeze ")
     options.menu_title = "~y~move menu"
     options.menu_subtitle = "move object"
     ClearMenu()
@@ -536,8 +606,9 @@ end
 -----------------------move track bend 5 d menu-------------------
 ------------------------------------------------------------------
 function moveTrackBend5d()
-    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
-	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to change hight")
+	Notify("~r~enter ~w~to freeze ")
     options.menu_title = "~y~move menu"
     options.menu_subtitle = "move object"
     ClearMenu()
@@ -547,12 +618,88 @@ function moveTrackBend5d()
 	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
 end
 function moveTrackBend5d0()
-    DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
-	Notify("Press ~r~F5 ~w~to ~g~open~w~/~r~close~w~!")
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to change hight")
+	Notify("~r~enter ~w~to freeze ")
     options.menu_title = "~y~move menu"
     options.menu_subtitle = "move object"
     ClearMenu()
 	Menu.addButton("~b~freeze ~y~track bend 5 d", "moveTrackBend5d", nil)
+    unfreezeStuff()   		
+end
+------------------------------------------------------------------
+-----------------------move track bend 5 d bar menu-------------------
+------------------------------------------------------------------
+function moveTrackBend5dBar()
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to cange hight")
+	Notify("~r~enter ~w~to freeze ")
+    options.menu_title = "~y~move menu"
+    options.menu_subtitle = "move object"
+    ClearMenu()
+	freezeStuff()
+	Menu.addButton("~b~unfreeze ~y~track bend 5 d bar", "moveTrackBend5dBar0", nil)
+    Menu.addButton("~g~back", "trackBend5dBar", nil) 	
+	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
+end
+function moveTrackBend5dBar0()
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to change hight")
+	Notify("~r~enter ~w~to freeze ")
+    options.menu_title = "~y~move menu"
+    options.menu_subtitle = "move object"
+    ClearMenu()
+	Menu.addButton("~b~freeze ~y~track bend 5 d bar", "moveTrackBend5dBar", nil)
+    unfreezeStuff()   		
+end
+------------------------------------------------------------------
+-----------------------move track bend 15 d menu-------------------
+------------------------------------------------------------------
+function moveTrackBend15d()
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to cange hight")
+	Notify("~r~enter ~w~to freeze ")
+    options.menu_title = "~y~move menu"
+    options.menu_subtitle = "move object"
+    ClearMenu()
+	freezeStuff()
+	Menu.addButton("~b~unfreeze ~y~track bend 5 d bar", "moveTrackBend15d0", nil)
+    Menu.addButton("~g~back", "trackBend15d", nil) 	
+	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
+end
+function moveTrackBend15d0()
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to change hight")
+	Notify("~r~enter ~w~to freeze ")
+    options.menu_title = "~y~move menu"
+    options.menu_subtitle = "move object"
+    ClearMenu()
+	Menu.addButton("~b~freeze ~y~track bend 5 d bar", "moveTrackBend15d", nil)
+    unfreezeStuff()   		
+end
+------------------------------------------------------------------
+-----------------------move track bend 15 d menu-------------------
+------------------------------------------------------------------
+function moveTrackBend15dBar()
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to cange hight")
+	Notify("~r~enter ~w~to freeze ")
+    options.menu_title = "~y~move menu"
+    options.menu_subtitle = "move object"
+    ClearMenu()
+	freezeStuff()
+	Menu.addButton("~b~unfreeze ~y~track bend 5 d bar", "moveTrackBend15dBar0", nil)
+    Menu.addButton("~g~back", "mpRacetrackPg2", nil) 	
+	Menu.addButton("~g~BACK TO MAIN MENU", "Main", nil)	
+end
+function moveTrackBend15dBar0()
+	Notify("use arrow keys to move obj ~n~Press [ ] keys to rotate on Y~n~ Press - = keys to rotate on X")
+	Notify("Press NUM- NUM+ to change heading ~n~ Press pgUP PgDOWN to change hight")
+	Notify("~r~enter ~w~to freeze ")
+    options.menu_title = "~y~move menu"
+    options.menu_subtitle = "move object"
+    ClearMenu()
+	Menu.addButton("~b~freeze ~y~track bend 15 d bar", "moveTrackBend15dBar", nil)
     unfreezeStuff()   		
 end
 --[[*************************************************************]]
