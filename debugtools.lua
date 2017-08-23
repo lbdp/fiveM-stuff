@@ -76,7 +76,7 @@ Citizen.CreateThread(function()
        a = nil
       end
 --home key
--- if control "left" key is pressed then it spawns the entity of your choosing	 
+-- if control "home" key is pressed then it spawns the entity of your choosing	 
 	 if IsControlPressed(0, 213) then
 	    Citizen.Wait(500)
 		 spawnStuff(stuff)
@@ -194,6 +194,28 @@ Citizen.CreateThread(function()
 		--sets the entity's rotation with result
 		SetEntityRotation(b, entityRotX1, entityRotY1, entityRotZ1)	
 	 end
+	 -- the "-" key
+     	if (DoesEntityExist(a) and IsControlPressed(0, 84)) then
+        --entityRot = GetEntityRotation(a)		
+	    entityRotX = entityRotX - moveSpeed1 		
+		--sets the entity's rotation with result
+		SetEntityRotation(a, entityRotX, entityRotY, entityRotZ)
+	        --entityRot = GetEntityRotation(a)		
+	    entityRotX1 = entityRotX1 - moveSpeed1 		
+		--sets the entity's rotation with result
+		SetEntityRotation(b, entityRotX1, entityRotY1, entityRotZ1)	
+	 end
+	 -- the "=" key
+     	if (DoesEntityExist(a) and IsControlPressed(0, 83)) then
+        --entityRot = GetEntityRotation(a)		
+	    entityRotX = entityRotX + moveSpeed1 		
+		--sets the entity's rotation with result
+		SetEntityRotation(a, entityRotX, entityRotY, entityRotZ)
+	        --entityRot = GetEntityRotation(a)		
+	    entityRotX1 = entityRotX1 + moveSpeed1 		
+		--sets the entity's rotation with result
+		SetEntityRotation(b, entityRotX1, entityRotY1, entityRotZ1)	
+	 end	 
     end
 end)
 
@@ -225,9 +247,19 @@ function deleteStuff()
 end
 -- this sets the entity's transparency
 function invisibleStuff()
- SetEntityAsMissionEntity(a)
+ SetEntityAsMissionEntity(a, true, true)
   SetEntityAlpha(a, 255)
 end
+function unfreezeStuff(unfreezer)
+  FreezeEntityPosition(unfreezer, false)
+  FreezeEntityPosition(unfreezer, false)  
+end
+function freezeStuff(freezer)
+  FreezeEntityPosition(freezer, true)
+  FreezeEntityPosition(freezer, true)
+end
+
+
 ----------------------------
 --this is the ACTUAL spawner
 function spawnStuff(stuff)
@@ -304,12 +336,21 @@ Citizen.CreateThread(function()
 	  Wait(0)
 	dude5 = PlayerId()
 	dude6 = IsPlayerFreeAiming(dude5)
+	if dude6 ~=false then
+	 dude10 = Citizen.InvokeNative(0x2975C866E6713290, dude5, Citizen.PointerValueInt(), Citizen.ResultAsString(dude10))
+	 Citizen.Trace(''..tostring(dude10))
+	 Citizen.Trace(''..tostring(GetEntityModel(dude10)))
+	 Citizen.Trace(''..tostring(GetEntityCoords(dude10)))	 
+	end
 	 if dude6 ~=false and deleteGunToggle ==true then 
 	 Wait(0) 
 	 --BOOL GET_ENTITY_PLAYER_IS_FREE_AIMING_AT(Player player, Entity *entity) // 2975C866E6713290 8866D9D0
 	dude10 = Citizen.InvokeNative(0x2975C866E6713290, dude5, Citizen.PointerValueInt(), Citizen.ResultAsString(dude10))
 	dude12 = GetEntityModel(dude10)
 	dude16 = GetEntityCoords(dude10)
+	Citizen.Trace(''..tostring(dude10))
+	Citizen.Trace(''..tostring(dude12))
+	Citizen.Trace(''..tostring(dude16))
 	  isMission = IsEntityAMissionEntity(dude10)
 	  isPed = IsEntityAPed(dude10)
 	  isAnObj = IsEntityAnObject(dude10)
@@ -369,36 +410,46 @@ RequestScaleformMovie("instructional_buttons")
 ----------------------this gets a player if they are not the current player-----------------------
 --------------------------------------------------------------------------------------------------
 Citizen.CreateThread(function()
-     temp0 = GetPlayerPed(-1)
-     temp1 = 0
-	 while temp1 <=5 do
-	  Wait(1000)
-	 
+     
+     currentPlayerName = GetPlayerName(PlayerId())
+     temp3 = {currentPlayerName, handle}
+     temp0 = GetPlayerPed(PlayerId())
+     temp1 = -1
+	 while temp1 <=3 do
+	  Citizen.Wait(10000)
       temp2 = IntToPlayerindex(temp1)
 	   if GetPlayerPed(temp2) ~= temp0 then 
 	        
 	   end	
 	   if DoesEntityExist(GetPlayerPed(temp2)) then 
+	    playerModel = GetEntityModel(GetPlayerPed(temp2))
+	   if not HasModelLoaded(playerModel) then 
+	    RequestModel(playerModel)
+	   end
 	    name =  GetPlayerName(temp2)
 	   else 
 	   name = GetPlayerName(temp2)
 	   end	   
+	  
+	  handle = NetworkHandleFromPlayer(temp1, 13)
 	  temp1 = temp1+1
-	  --Citizen.Trace("temp1: "..tostring(temp1))
-	  --Citizen.Trace("player ped id: "..tostring(NetworkGetPlayerIndexFromPed(PlayerPedId())))
-	  --Citizen.Trace("get player ped: "..tostring(temp0))
-	  --Citizen.Trace("int to player index: "..tostring(temp2))
-	  --Citizen.Trace("player name: "..tostring(name))
-	  if temp1 >= 5 then 
-	    temp1 = 0
+	  Citizen.Trace("current playerID: "..tostring(PlayerId()))
+	  Citizen.Trace("current player ped ID: "..tostring(temp0))
+	  Citizen.Trace("iterator: "..tostring(temp1))	  
+	  Citizen.Trace("player pedID: "..tostring(GetPlayerPed(temp2)))
+	  Citizen.Trace("player name: "..tostring(name))
+	  Citizen.Trace("handle: "..tostring(handle))
+	  Citizen.Trace("is r* banned: "..tostring(IsSocialclubBanned()))
+	  if temp1 >= 3 then 
+	    temp1 = -1
 	  end
 	 end   
 end)
 
 Citizen.CreateThread(function()
     while true do	
-     Citizen.Wait(1000000)
-	 Citizen.Trace("get hash key of cinscreen: "..tostring(GetHashKey("cinscreen")))
+     Citizen.Wait(3000)
+	 --Citizen.Trace("get hash key of cinscreen: "..tostring(GetHashKey("cinscreen")))
 	 --Citizen.Trace("is interior ready: "..tostring(IsInteriorReady(258561)))
 	 --Citizen.Trace("playerId: "..tostring(PlayerId()))
 	 --Citizen.Trace("get name of this thread: "..tostring(GetIdOfThisThread()))
@@ -408,15 +459,15 @@ Citizen.CreateThread(function()
 	 --Citizen.Trace("get player ped: "..tostring(temp0))
 	 --Citizen.Trace("int to player index: "..tostring(temp2))
 	 --Citizen.Trace("temp1: "..tostring(temp1))
-	 Citizen.Trace("spawned entity ID: "..tostring(a))
+	 --Citizen.Trace("spawned entity ID: "..tostring(a))
 	 --Citizen.Trace("interior ready: "..tostring(IsInteriorReady(258561)))
-	 Citizen.Trace("get closest object of type: "..tostring(GetClosestObjectOfType(GetEntityCoords(GetPlayerPed(PlayerId()), true), 20.1, stuff, 0, 0, 0)))
+	 --Citizen.Trace("get closest object of type: "..tostring(GetClosestObjectOfType(GetEntityCoords(GetPlayerPed(PlayerId()), true), 20.1, stuff, 0, 0, 0)))
 	--Citizen.Trace("get network id of player: "..tostring(NetworkGetNetworkIdFromEntity(GetPlayerPed())))
 	 --Citizen.Trace("current interior ID: "..tostring(GetInteriorFromEntity(GetPlayerPed(-1))))
-	 Citizen.Trace("spawned entity coords: "..tostring(GetEntityCoords(a)))
-	 Citizen.Trace("spawned entity heading: "..tostring(GetEntityHeading(a)))
-	 Citizen.Trace("spawned entity rotation: "..tostring(GetEntityRotation(a)))      
-	 Citizen.Trace("spawned entityID : "..tostring(a))
+	 --Citizen.Trace("spawned entity coords: "..tostring(GetEntityCoords(a)))
+	 --Citizen.Trace("spawned entity heading: "..tostring(GetEntityHeading(a)))
+	 --Citizen.Trace("spawned entity rotation: "..tostring(GetEntityRotation(a)))      
+	 --Citizen.Trace("spawned entityID : "..tostring(a))
 	 --Citizen.Trace("get render cam : "..tostring(renderCam))
 	 --Citizen.Trace("spawned vehID : "..tostring(spawnedVeh))
 	 --Citizen.Trace("has veh model loaded : "..tostring(HasModelLoaded(veh)))
