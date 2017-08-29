@@ -5,4 +5,5 @@ client_scripts {
 'tv_stuff.lua'
 'gui.lua'
 'menu.lua'
+'bikers.lua'
 }
