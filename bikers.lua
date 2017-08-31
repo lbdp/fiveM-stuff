@@ -1,4 +1,4 @@
-
+"is it working"
 Citizen.CreateThread(function()
     while true do		
 	medVehWarehouse = AddBlipForCoord(1008.0133, -1854.208, 31.039)
