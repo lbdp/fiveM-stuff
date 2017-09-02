@@ -1,2 +1,2 @@
 # fiveM-stuff
-my collection of scripts
+i no longer use this repo i split things up into multiple repo's
